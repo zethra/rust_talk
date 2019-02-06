@@ -1,0 +1,7 @@
+[package]
+name = "echo_1"
+version = "0.1.0"
+authors = ["Ben Goldberg <benaagoldberg@gmail.com>"]
+edition = "2018"
+
+[dependencies]
