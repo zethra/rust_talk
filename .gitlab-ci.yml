@@ -1,0 +1,17 @@
+before_script:
+  - apt-get update -qq && apt-get install -y -qq pandoc make
+
+test:
+  stage: test
+  script:
+    - make
+
+pages:
+  stage: deploy
+  script:
+    - make pages
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
