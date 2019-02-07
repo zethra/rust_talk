@@ -11,6 +11,11 @@ theme:
 
 A Programming Language for the Future
 
+# Thank You
+
+Thank you to [rust-lang.org](https://rust-lang.org) for
+providing content and examples!
+
 # Overview
 
 - The sales pitch
