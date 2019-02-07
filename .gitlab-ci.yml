@@ -1,5 +1,5 @@
 before_script:
-  - apt-get update -qq && apt-get install -y -qq pandoc make texlive-latex-base texlive-fonts-recommended latex-beamer
+  - apt-get update -qq && apt-get install -y -qq pandoc make texlive-latex-base texlive-fonts-recommended texlive-fonts-extra
 
 test:
   stage: test
