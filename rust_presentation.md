@@ -96,7 +96,8 @@ Rust has great documentation, a friendly compiler with useful error messages, an
 - Command line tools
 - Operating systems
 - Network services
-- Webasmbily
+- Web Apps
+- Webassembly
 - Embedded
 
 # Things Written in Rust
@@ -178,6 +179,7 @@ fn main() {
         let y = 5;
         println!("x:{}, y:{}", x, y);
     }
+	// Doesn't compile!!!!
     println!("x:{}, y:{}", x, y);
 }
 ```
@@ -187,11 +189,13 @@ fn main() {
 ```rust
 fn hello(name: String) {
     println!("Hello {}!", name);
+	// name is destroyed here
 }
 
 fn main() {
     let name = String::from("RIT LUG");
     hello(name);
+	// Doesn't compile because name has been freed
     println!("Goodbye {}", name);
 }
 ```
@@ -217,6 +221,7 @@ fn main() {
 ## Immutable reference
 
 ```rust
+// Doesn't compile
 fn inc(x: &i32) {
     x += 1;
 }
@@ -246,9 +251,25 @@ let mut v1 = 3;
 let r1 = &v1;
 let r2 = &v1;
 
+// Doesn't compile
 let mut v2 = 4;
 let r1 = &mut v2;
 let r2 = &mut v2;
+```
+
+# Statements vs Expressions
+
+Statement
+```rust
+let z = x + y;
+```
+
+Expression
+```rust
+{
+	let z = x + y;
+	z * y
+}
 ```
 
 # Functions
@@ -262,6 +283,8 @@ fn add(x: i32, y: i32) -> i32 {
     x + y
 }
 ```
+
+Functions return the result of their last expression if it's not followed by a semi-colon
 
 # Structures
 
@@ -308,7 +331,9 @@ impl Point {
 fn main() {
     let p1 = Point::new(1, 2);
     let p2 = Point::new(2, 3);
+	// These are the same
     p1.add(&p2);
+	Point::add(&mut p1, &p2);
 }
 ```
 
@@ -336,7 +361,9 @@ let s3 = String::from("Foo").push_str("Bar");
 
 # Unit Type
 
-`()` equivalent to `void` in C
+`()` is the empty type
+
+Functions that don't specify a return type return `()`
 
 # Enums
 
@@ -384,7 +411,7 @@ enum Coin {
 
 fn is_a_penny(coin: Coin) -> bool {
     match coin {
-        Coin => {
+        Coin::Penny => {
             println!("A penny!");
             true
         }
@@ -402,7 +429,8 @@ enum IpAddr {
 }
 
 match ip_addr {
-    IpAddr::V4(p1, p2, p3, p4) => println!("{}.{}.{}.{}.", p1, p2, p3, p4),
+    IpAddr::V4(p1, p2, p3, p4) =>
+		println!("{}.{}.{}.{}.", p1, p2, p3, p4),
     IpAddr::V6(s) => println!("{}", s),
 }
 ```
@@ -647,28 +675,6 @@ fn main() {
 # Modules
 
 ```rust
-mod sound {
-    mod instrument {
-        mod woodwind {
-            fn clarinet() {
-                // Function body code goes here
-            }
-        }
-    }
-
-    mod voice {
-
-    }
-}
-
-fn main() {
-
-}
-```
-
-# Modules cont.
-
-```rust
 pub mod sound {
     pub mod instrument {
         pub fn clarinet() {
@@ -686,7 +692,7 @@ fn main() {
 }
 ```
 
-# Modules cont. 2
+# Modules cont.
 
 ```rust
 pub struct Point {
@@ -694,6 +700,13 @@ pub struct Point {
     pub y: i32,
 }
 ```
+
+# Syncronazation
+
+The borrow checker also prevent shared mutablity between
+thread and prevents data races
+
+Rust also provides safe and effective syncronazation primatives
 
 # Cargo
 
